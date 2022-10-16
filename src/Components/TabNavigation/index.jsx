@@ -1,26 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet } from "react-native-web";
+import { View, Text, StyleSheet, Pressable  } from "react-native-web";
+import AuthRoutes from '../../Routes/auth.routes';
 
+import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
+export default function TabNavigation(props) {
 
-export default function TabNavigation() {
+  
   return (
+
+    
     <View style={styles.TabNavigationContainer}>
 
-      <View style={styles.tab}>
-        <Text style={styles.text}>MENU</Text>
-      </View>
-
-      <View style={styles.tab}>
-        <Text style={styles.text}>HOME</Text>
-      </View>
-
-      <View style={styles.tab}>
-        <Text style={styles.text}>SETTINGS</Text>
-      </View>
+      <Pressable  style={styles.button }>MENU</Pressable >
+      <Pressable  style={styles.button }>HOME</Pressable >
+      <Pressable  style={styles.button }>SETTINGS</Pressable >
 
 
     </View>
+
+    
+
   );
 }
 
@@ -31,13 +32,16 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginTop:'auto',
     marginBottom:'auto',
-    borderWidth: 1,
+
     flex:"80px",
     backgroundColor: "#fff",
   },
-  text:{
-    fontSize:15,
-    color: '#0000ff'
+  button :{
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    
   }
  
 })

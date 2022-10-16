@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
-import { View, Text, StyleSheet } from "react-native-web";
-import IconMenu from '../../Assets/icons/IconMenu.svg';
+import { View, Text, StyleSheet, Image } from "react-native-web";
+
 import BasePage from "../../Components/BasePage";
 import TabNavigation from "../../Components/TabNavigation";
 
-export default function Home(){
+import Avatar from '../../Assets/icons/avatar.svg';
+
+export default function Home(props){
 
     const [listAlunos, setListAlunos] = useState([{
         ra:1,
@@ -29,11 +31,11 @@ export default function Home(){
         ra:7,
         name:"lorem ipsum 7"
     },{
-        ra:8,
+        ra:8000,
         name:"lorem ipsum 8"
     },{
         ra:9,
-        name:"lorem ipsum 9"
+        name:"lorem ipsum lorem ipsum "
     },{
         ra:1,
         name:"lorem ipsum 1"
@@ -99,26 +101,25 @@ export default function Home(){
 
             <View style={styles.container}>
                 
-            <Text style={{marginRight:'auto', marginLeft:"auto", fontSize:20, marginBottom:5, marginTop:20}}>Lista de Alunos</Text>
+            <Text style={{marginRight:'auto', marginLeft:"auto", fontSize:20, marginBottom:10, marginTop:20}}>Lista de Alunos</Text>
             <ScrollView  style={styles.listAlunos} >
                 
                 {listAlunos.map((item) =>(
                     <View style={styles.textListAlunos}>
-                        <Text style={{flex:1}}>Avatar  </Text>
-                        <Text style={{flex:1, fontSize: 12}}> RA:  {item.ra}</Text>
-                        <Text style={{flex:5, fontSize: 12}}>Nome:  {item.name}</Text>
+                        <View style={{flexDirection:'row', marginRight:10}}>
+                            <img style={{width:'20px'}} src={Avatar}/>
+                            <Text style={{ fontSize: 12}}> RA: {item.ra}</Text>
+                        </View>
+                        <Text style={{fontSize: 12}}>Nome:  {item.name}</Text>
                     </View>
                     
                 ))}
             </ScrollView >
-
-            <View style={styles.icon}>
-                <img style={styles.iconImg} src={IconMenu} />
-            </View>
             
         </View>
 
             <TabNavigation/>
+
         </>
     )
 }
@@ -132,25 +133,15 @@ const styles = StyleSheet.create({
         marginLeft: '15px',
         height:'60%'
     },
-
-    icon:{
-        flex:'15px',
-        alignItems: 'center',
-        justifyContent:"center",
-
-    },
-    iconImg:{
-        width:40
-    },
     textListAlunos:{
         flexDirection:'row',
-        justifyContent:"space-between",
-        marginTop:10, 
+        justifyContent:"flex-start",
+        marginBottom:10,
         borderWidth: 1, 
         padding:5,
         font:5,
-        marginRight:15
-
+        marginRight:15,
+        height:'auto'
     },
 
 
