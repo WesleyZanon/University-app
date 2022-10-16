@@ -14,7 +14,7 @@ export default function BasePage(){
 
 const styles = StyleSheet.create({
     containerBasePage: {
-        backgroundColor: "#c0c0c0",
+        backgroundColor: "#fff",
         flex:1
     },
 

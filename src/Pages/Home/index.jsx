@@ -3,6 +3,7 @@ import { ScrollView } from "react-native";
 import { View, Text, StyleSheet } from "react-native-web";
 import IconMenu from '../../Assets/icons/IconMenu.svg';
 import BasePage from "../../Components/BasePage";
+import TabNavigation from "../../Components/TabNavigation";
 
 export default function Home(){
 
@@ -98,7 +99,7 @@ export default function Home(){
 
             <View style={styles.container}>
                 
-            <Text style={{marginRight:'auto', marginLeft:"auto", fontSize:20, marginNottom:5}}>Lista de Alunos</Text>
+            <Text style={{marginRight:'auto', marginLeft:"auto", fontSize:20, marginBottom:5, marginTop:20}}>Lista de Alunos</Text>
             <ScrollView  style={styles.listAlunos} >
                 
                 {listAlunos.map((item) =>(
@@ -114,29 +115,32 @@ export default function Home(){
             <View style={styles.icon}>
                 <img style={styles.iconImg} src={IconMenu} />
             </View>
-
+            
         </View>
+
+            <TabNavigation/>
         </>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-
-      margin: 30,
       flex: "100%",
+      backgroundColor: '#eaeaea',
     },
     listAlunos:{
+        marginLeft: '15px',
         height:'60%'
     },
 
     icon:{
-        flex:"10%",
+        flex:'15px',
         alignItems: 'center',
-        marginTop:50,
+        justifyContent:"center",
+
     },
     iconImg:{
-        width:60
+        width:40
     },
     textListAlunos:{
         flexDirection:'row',
