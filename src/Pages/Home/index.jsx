@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { View, Text, StyleSheet, Image } from "react-native-web";
 
 import BasePage from "../../Components/BasePage";
-import TabNavigation from "../../Components/TabNavigation";
+
 
 import Avatar from '../../Assets/icons/avatar.svg';
 
@@ -118,7 +118,6 @@ export default function Home(props){
             
         </View>
 
-            <TabNavigation/>
 
         </>
     )
