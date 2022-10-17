@@ -4,16 +4,20 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
 import Home from '../Pages/Home';
 import Menu from '../Pages/Menu';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Pilha = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function AuthRoutes(){
   return(
 
       <NavigationContainer independent={true}>
-          <Pilha.Navigator>
-              <Pilha.Screen name='Menu' component={Menu} options={{headerShown: false}}/>
-          </Pilha.Navigator>
+          <Tab.Navigator>
+            <Tab.Screen name='MENU' component={Menu} options={{headerShown: false}}/>
+            <Tab.Screen name='HOME' component={Home} options={{headerShown: false}}/>
+            <Tab.Screen name='SETTINGS' component={''} options={{headerShown: false}}/>
+              
+          </Tab.Navigator>
       </NavigationContainer>
       
   )
