@@ -2,13 +2,15 @@ import React from 'react';
 import { View, Text,Button,Pressable, StyleSheet } from "react-native-web";
 
 
-export default function Menu(){
+export default function Menu(props){
     return(
         <View style={styles.MenuContainer}>
-            <Pressable style={styles.button}>HOME</Pressable>
-            <Pressable style={styles.button}>CADASTRAR</Pressable>
-            <Pressable style={styles.button}>VISUALIZAR</Pressable>
-            <Pressable style={styles.button}>SETTINGS</Pressable>
+
+                    <Pressable onPress={()=>props.navigation.navigate('home')} style={styles.button}>HOME</Pressable>
+                    <Pressable onPress={()=>props.navigation.navigate('MenuRegister')} style={styles.button}>CADASTRAR</Pressable>
+                    <Pressable onPress={()=>props.navigation.navigate('')} style={styles.button}>VISUALIZAR</Pressable>
+                    <Pressable onPress={()=>props.navigation.navigate('sttings')} style={styles.button}>SETTINGS</Pressable>
+
         </View>
     )
 }
