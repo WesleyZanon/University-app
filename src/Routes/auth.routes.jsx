@@ -12,7 +12,6 @@ export default function AuthRoutes(){
 
       <NavigationContainer independent={true}>
           <Pilha.Navigator>
-              <Pilha.Screen name='Home' component={Home} options={{headerShown: false}}/>
               <Pilha.Screen name='Menu' component={Menu} options={{headerShown: false}}/>
           </Pilha.Navigator>
       </NavigationContainer>
