@@ -7,6 +7,8 @@ import BasePage from "../../Components/BasePage";
 
 import Avatar from '../../Assets/icons/avatar.svg';
 
+
+
 export default function Home(){
 
     const [listAlunos, setListAlunos] = useState([{
@@ -118,6 +120,7 @@ export default function Home(){
             
         </View>
 
+                    
 
         </>
     )
