@@ -8,8 +8,8 @@ export default function Menu(props){
 
                     <Pressable onPress={()=>props.navigation.navigate('home')} style={styles.button}>HOME</Pressable>
                     <Pressable onPress={()=>props.navigation.navigate('MenuRegister')} style={styles.button}>CADASTRAR</Pressable>
-                    <Pressable onPress={()=>props.navigation.navigate('')} style={styles.button}>VISUALIZAR</Pressable>
-                    <Pressable onPress={()=>props.navigation.navigate('sttings')} style={styles.button}>SETTINGS</Pressable>
+                    <Pressable onPress={()=>props.navigation.navigate('MenuVisualizations')} style={styles.button}>VISUALIZAR</Pressable>
+                    <Pressable onPress={()=>props.navigation.navigate('settings')} style={styles.button}>SETTINGS</Pressable>
 
         </View>
     )
