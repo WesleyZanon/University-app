@@ -5,7 +5,7 @@ import { View, Text,Button,Pressable, StyleSheet } from "react-native-web";
 export default function Menu(){
     return(
         <View style={styles.MenuContainer}>
-            <Pressable style={styles.button}>ALUNO</Pressable>
+            <Pressable onPress={()=>props.navigation.navigate('')} style={styles.button}>ALUNO</Pressable>
             <Pressable style={styles.button}>PROFESSOR</Pressable>
             <Pressable style={styles.button}>CURSO</Pressable>
             <Pressable style={styles.button}>TURMA</Pressable>
