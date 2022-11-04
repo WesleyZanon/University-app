@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text,Button,Pressable, StyleSheet } from "react-native-web";
 
 
-export default function MenuVisualizations(){
+export default function MenuVisualizations(props){
     return(
         <View style={styles.MenuContainer}>
-            <Pressable onPress={()=>props.navigation.navigate('RegiterAlunos')} style={styles.button}>ALUNOS</Pressable>
+
             <Pressable style={styles.button}>PROFESSOR</Pressable>
             <Pressable style={styles.button}>CURSOS</Pressable>
             <Pressable style={styles.button}>TURMAS</Pressable>

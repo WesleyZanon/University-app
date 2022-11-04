@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
 import { View, Text, StyleSheet, Image } from "react-native-web";
 
@@ -7,93 +7,43 @@ import BasePage from "../../Components/BasePage";
 
 import Avatar from '../../Assets/icons/avatar.svg';
 
-
+import {getFirestore, collection, getDocs, setDoc, doc, deleteDoc, getDoc} from 'firebase/firestore';
+import db from '../../Services/index'
+import { async } from "@firebase/util";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import ClockLoader from "react-spinners/ClockLoader";
 
 export default function Home(){
 
-    const [listAlunos, setListAlunos] = useState([{
-        ra:1,
-        name:"lorem ipsum 1"
-    },{        
-        ra:2,
-        name:"lorem ipsum 2",
-    },{
-        ra:3,
-        name:"lorem ipsum 3"
-    },{
-        ra:4,
-        name:"lorem ipsum 4"
-    },{
-        ra:5,
-        name:"lorem ipsum 5"
-    },{
-        ra:6,
-        name:"lorem ipsum 6"
-    },{
-        ra:7,
-        name:"lorem ipsum 7"
-    },{
-        ra:8000,
-        name:"lorem ipsum 8"
-    },{
-        ra:9,
-        name:"lorem ipsum lorem ipsum "
-    },{
-        ra:1,
-        name:"lorem ipsum 1"
-    },{        
-        ra:2,
-        name:"lorem ipsum 2",
-    },{
-        ra:3,
-        name:"lorem ipsum 3"
-    },{
-        ra:4,
-        name:"lorem ipsum 4"
-    },{
-        ra:5,
-        name:"lorem ipsum 5"
-    },{
-        ra:6,
-        name:"lorem ipsum 6"
-    },{
-        ra:7,
-        name:"lorem ipsum 7"
-    },{
-        ra:8,
-        name:"lorem ipsum 8"
-    },{
-        ra:9,
-        name:"lorem ipsum 9"
-    },{
-        ra:1,
-        name:"lorem ipsum 1"
-    },{        
-        ra:2,
-        name:"lorem ipsum 2",
-    },{
-        ra:3,
-        name:"lorem ipsum 3"
-    },{
-        ra:4,
-        name:"lorem ipsum 4"
-    },{
-        ra:5,
-        name:"lorem ipsum 5"
-    },{
-        ra:6,
-        name:"lorem ipsum 6"
-    },{
-        ra:7,
-        name:"lorem ipsum 7"
-    },{
-        ra:8,
-        name:"lorem ipsum 8"
-    },{
-        ra:9,
-        name:"lorem ipsum 9"
-    }
-])
+    const [listAlunos, setListAlunos] = useState([])
+
+    
+
+
+    useEffect(async () => {
+
+        const collecRef  = await collection(db, 'Alunos');
+
+
+        //get collection data
+        getDocs(collecRef)
+          .then( (snapshot)=> {
+            console.log(snapshot.docs)
+        
+            let items = []
+            snapshot.docs.forEach((doc) => {
+              items.push({...doc.data(), id:doc.id})
+            })
+            console.log(items)
+            setListAlunos(items)
+          })
+          .catch(err => {
+            console.log(err.message)
+          })
+
+          console.log(listAlunos.foto)
+    
+        },[collection]);
 
     return(
 
@@ -109,10 +59,10 @@ export default function Home(){
                 {listAlunos.map((item) =>(
                     <View style={styles.textListAlunos}>
                         <View style={{flexDirection:'row', marginRight:10}}>
-                            <img style={{width:'20px'}} src={Avatar}/>
+                            <img style={{width:'20px'}} src={item.urlFoto}/>
                             <Text style={{ fontSize: 12}}> RA: {item.ra}</Text>
                         </View>
-                        <Text style={{fontSize: 12}}>Nome:  {item.name}</Text>
+                        <Text style={{fontSize: 12}}>Nome:  {item.nome}</Text>
                     </View>
                     
                 ))}
