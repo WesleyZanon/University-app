@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
-import { View, Text, StyleSheet, Image } from "react-native-web";
+import { View, Text, StyleSheet, Image,FlatList } from "react-native-web";
 
 import BasePage from "../../Components/BasePage";
 
@@ -15,35 +15,59 @@ import ClockLoader from "react-spinners/ClockLoader";
 
 export default function Home(){
 
+    const colecaoRef = collection(db, 'Alunos');
     const [listAlunos, setListAlunos] = useState([])
 
-    
+    useEffect(
+      ()=>{
+        retornaDados()
+      },[]
+    );
+  
+    //get collection data
+    const retornaDados = async ()=>{
 
-
-    useEffect(async () => {
-
-        const collecRef  = await collection(db, 'Alunos');
-
-
-        //get collection data
-        getDocs(collecRef)
-          .then( (snapshot)=> {
-            console.log(snapshot.docs)
+      try{
+        const snapshot = await getDocs(colecaoRef)
+  
+        for(let i=0;i<snapshot.docs.length;i++){
+          console.log('Dados[', i, ']: ', snapshot.docs[i].data())
+  
+          const dado = {id:snapshot.docs[i].id, ra:snapshot.docs[i].ra, nome:snapshot.docs[i].data().nome, urlFoto: snapshot.docs[i].data().urlFoto}
+  
+          listAlunos.push( dado )
+        }
+  
         
-            let items = []
-            snapshot.docs.forEach((doc) => {
-              items.push({...doc.data(), id:doc.id})
-            })
-            console.log(items)
-            setListAlunos(items)
-          })
-          .catch(err => {
-            console.log(err.message)
-          })
+        const vetor2 = listAlunos.slice()
+  
+        setListAlunos(vetor2)
+  
+      }catch(erro) {
+        console.log(erro.message)
+      }
+  
+    }
 
-          console.log(listAlunos.foto)
+    const separador = ()=>{
+      return( 
+          <View style={{height:3, backgroundColor:'black', width:'100%'}}></View>
+       );
+    }
+
     
-        },[collection]);
+  const renderiza = ({item})=>{
+    return(
+      <View style={styles.textListAlunos}>
+      <View style={{flexDirection:'row', marginRight:10}}>
+          <img style={{width:'20px'}} src={item.urlFoto}/>
+          <Text style={{ fontSize: 12}}> RA: {(item.id)}</Text>
+      </View>
+      <Text style={{fontSize: 12}}>Nome:  {item.nome}</Text>
+      </View>
+    );
+  }
+
 
     return(
 
@@ -55,18 +79,18 @@ export default function Home(){
                 
             <Text style={{marginRight:'auto', marginLeft:"auto", fontSize:20, marginBottom:10, marginTop:20}}>Lista de Alunos</Text>
             <ScrollView  style={styles.listAlunos} >
+
+
+            <FlatList 
+                data ={listAlunos} 
+                keyExtractor={(item)=>{item.id}}
+                renderItem={renderiza}
+      />
                 
-                {listAlunos.map((item) =>(
-                    <View style={styles.textListAlunos}>
-                        <View style={{flexDirection:'row', marginRight:10}}>
-                            <img style={{width:'20px'}} src={item.urlFoto}/>
-                            <Text style={{ fontSize: 12}}> RA: {item.ra}</Text>
-                        </View>
-                        <Text style={{fontSize: 12}}>Nome:  {item.nome}</Text>
-                    </View>
-                    
-                ))}
+
             </ScrollView >
+
+            {console.log(listAlunos)}
             
         </View>
 

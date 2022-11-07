@@ -37,9 +37,9 @@ export default function TabRoutes(){
       <NavigationContainer independent={true}>
 
           <Tab.Navigator>
-         
-          <Tab.Screen name='RegiterTurmas' component={RegiterTurmas} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
 
+          <Tab.Screen name='RegiterHistoric' component={RegiterHistoric} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
+          
             <Tab.Screen name='home' component={Home} options={{headerShown: false}}/>
               <Tab.Screen name='menu' component={Menu} options={{headerShown: false}}/>
               <Tab.Screen name='settings' component={Settings} options={{headerShown: false}}/>  
@@ -50,13 +50,15 @@ export default function TabRoutes(){
             
               
              
-              <Tab.Screen name='RegiterHistoric' component={RegiterHistoric} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
+     
              
               
              
               <Tab.Screen name='RegiterAlunos' component={RegiterAlunos} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
-              <Tab.Screen name='RegiterTeacher' component={RegiterTeacher} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
               <Tab.Screen name='RegiterDisciplina' component={RegiterDisciplina} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
+              <Tab.Screen name='RegiterTeacher' component={RegiterTeacher} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false, render:true}}/>  
+              <Tab.Screen name='RegiterTurmas' component={RegiterTurmas} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  
+         
               
               {/*
               <Tab.Screen name='Teacher' component={Teacher} options={{headerShown: false,  tabBarButton: ()=>null, tabBarVisible: false}}/>  

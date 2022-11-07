@@ -11,7 +11,7 @@ export default function CadastroCursos(props){
   const [codigo, setCodigo] = useState(1);
   const [nome, setNome] = useState();
   const [cargaHoraria, setCargaHoraria] = useState();
-  const [idCurso ,setIdCurso] = useState(0);
+  const [idCurso ,setIdCurso] = useState(1);
 
   
 
@@ -19,33 +19,33 @@ export default function CadastroCursos(props){
 
   
 
-    useEffect(() => {
+    useEffect(async() => {
 
    
-    const collecRef  = collection(db, 'Cursos');
+      const collecRef  = await collection(db, 'Cursos');
 
-    getDocs(collecRef)
-    .then( (snapshot)=> {
-      //console.log("list = "+ snapshot.docs)
-  
-      const items = []
-      
-      snapshot.docs.forEach((doc) => {
-        items.push({...doc.data(), id:doc.id})
-
-        const id = items.length
-
-        setIdProfessor(id)
-
-        setCodigo(id+1)
-
+      getDocs(collecRef)
+      .then( (snapshot)=> {
+        //console.log("list = "+ snapshot.docs)
+    
+        const items = []
         
+        snapshot.docs.forEach((doc) => {
+          items.push({...doc.data(), id:doc.id})
+
+          const id = items.length
+
+          setIdCurso(id+1)
+
+          setCodigo(id+1)
+
+          
+        })
+        //console.log('ra = ' + (items.length))
       })
-      //console.log('ra = ' + (items.length))
-    })
-    .catch(err => {
-      console.log(err.message)
-    })
+      .catch(err => {
+        console.log(err.message)
+      })
 
     },[]);
 

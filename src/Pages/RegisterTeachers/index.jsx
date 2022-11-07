@@ -12,7 +12,7 @@ export default function CadastroTeachers(props){
   const [nome, setNome] = useState();
   const [cidade, setCidade] = useState();
   const [endereco, setEndereco] = useState();
-  const [idProfessor, setIdProfessor] = useState(0);
+  const [idProfessor, setIdProfessor] = useState(1);
 
   
 
@@ -20,14 +20,14 @@ export default function CadastroTeachers(props){
 
   
 
-    useEffect(() => {
+    useEffect(async() => {
 
-   
-    const collecRef  = collection(db, 'Professores');
+    
+      const collecRef  = await collection(db, 'Professores');
 
-    getDocs(collecRef)
-    .then( (snapshot)=> {
-      //console.log("list = "+ snapshot.docs)
+      getDocs(collecRef)
+      .then( (snapshot)=> {
+        //console.log("list = "+ snapshot.docs)
   
       const items = []
       
@@ -48,7 +48,7 @@ export default function CadastroTeachers(props){
       console.log(err.message)
     })
 
-    },[]);
+    },[collection]);
 
   function salvar(){
 

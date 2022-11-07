@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TextInput, View, StyleSheet, Pressable, Button,Image } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Pressable, Button,Image,FlatList, ScrollView } from 'react-native';
+
 
 import {getFirestore, collection, getDocs, setDoc, doc, deleteDoc, getDoc} from 'firebase/firestore';
 import db from '../../Services/index'
 
-
+import { RadioButton } from 'react-native-paper';
 
 export default function CadastroTurmas(props){
   
@@ -12,7 +13,7 @@ export default function CadastroTurmas(props){
   const [nome, setNome] = useState();
   const [cargaHoraria, setCargaHoraria] = useState();
   const [ano, setAno] = useState();
-  const [idTurma ,setIdTurma] = useState(0);
+  const [idTurma ,setIdTurma] = useState(1);
 
   const [idCurso ,setIdCurso] = useState();
   const [curso ,setCurso] = useState();
@@ -20,17 +21,18 @@ export default function CadastroTurmas(props){
   const [idProfessor ,setIdProfessor] = useState();
   const [professor ,setProfessor] = useState();
 
-  const [listCurso, setListCurso] = useState();
-  const [listProgessor, setListProfessor] = useState();
+  const [listCurso, setListCurso] = useState([]);
+  const [listTeacher, setListTeacher] = useState([]);
 
 
+  const [checkedCurso, setCheckedCurso] = useState();
+  const [checkedTeacher, setCheckedTeacher] = useState();
 
   
-
-    useEffect(() => {
-
+//Buscar id da turma
+    useEffect(async() => {
    
-      const collecRef  = collection(db, 'Turmas');
+      const collecRef  = await collection(db, 'Turmas');
 
       getDocs(collecRef)
       .then( (snapshot)=> {
@@ -43,9 +45,11 @@ export default function CadastroTurmas(props){
 
           const id = items.length
 
-          setIdProfessor(id)
+          setIdTurma(id+1)
 
           setCodigo(id+1)
+
+
 
           
         })
@@ -57,17 +61,83 @@ export default function CadastroTurmas(props){
 
     },[]);
 
+    
+
+
+//Preencher lista de Cursos
+useEffect(() => {
+   
+  const collecRef  = collection(db, 'Cursos');
+
+  getDocs(collecRef)
+  .then( (snapshot)=> {
+    //console.log("list = "+ snapshot.docs)
+
+    const items = []
+    
+    snapshot.docs.forEach((doc) => {
+      items.push({...doc.data(), id:doc.id})
+
+      setListCurso(items)
+
+
+
+
+      
+    })
+    //console.log('ra = ' + (items.length))
+  })
+  .catch(err => {
+    console.log(err.message)
+  })
+
+},[]);
+
+
+//Preencher lista de Professores
+useEffect(() => {
+   
+  const collecRef  = collection(db, 'Professores');
+
+  getDocs(collecRef)
+  .then( (snapshot)=> {
+    //console.log("list = "+ snapshot.docs)
+
+    const items = []
+    
+    snapshot.docs.forEach((doc) => {
+      items.push({...doc.data(), id:doc.id})
+
+      setListTeacher(items)
+
+
+
+
+      
+    })
+    //console.log('ra = ' + (items.length))
+  })
+  .catch(err => {
+    console.log(err.message)
+  })
+
+},[]);
+
+  function selecionaCurso(cursoSelect,horarioSelect){
+    setCheckedCurso(cursoSelect); 
+    setCargaHoraria(horarioSelect);
+  }
+ 
+
   function salvar(){
 
 
-    setDoc(doc(db, "Turmas", idCurso.toString()), {
-      codigo:codigo,
-      nome: nome,
-      carga_horaria: cargaHoraria,
-      codigoProfessor: codigoProfessor,
-      profesor: professor,
-      codigoCurso: codigoCurso,
-      curso:curso,
+    setDoc(doc(db, "Turmas", idTurma.toString()), {
+      codigo: codigo,
+      codigoDisciplina:checkedCurso,
+      codigoProfessor:checkedTeacher,
+      ano:ano,
+      cargaHoraria:cargaHoraria
     });
 
 
@@ -76,44 +146,79 @@ export default function CadastroTurmas(props){
 
 
 
-
+  const renderizaCurso = ({item})=>{
 
 
     return(
-        <View style={styles.container}>
+      <View style={styles.containerCurso}>
+              <RadioButton value={item.codigo} status={ checkedCurso ===  (item.codigo)? 'checked' : 'unchecked' } onPress={() => selecionaCurso(item.codigo,item.carga_horaria)} style={styles.buttonRadio}/>
+        <Text  style={styles.text}>{item.nome}</Text>
+      </View>
+      );
+      }
+
+      
+
+      const renderizaTeacher = ({item})=>{
+        return(
+          <View style={styles.containerCurso}>
+                  <RadioButton value={item.codigo} status={ checkedTeacher ===  (item.codigo)? 'checked' : 'unchecked' } onPress={() => setCheckedTeacher(item.codigo)} style={styles.buttonRadio}/>
+            <Text  style={styles.text}>{item.nome}</Text>
+          </View>
+          );
+          }
+
+
+    return(
+        <ScrollView style={styles.container}>
 
             <Text style={styles.text}>Digite as informações de Cadastro</Text>
             
             <Text style={styles.text}>Codigo: {codigo}</Text>
 
-            <Text style={styles.text}>Disciplina</Text>
-            <TextInput style={styles.input}
-              onChangeText={(nome) => {setNome(nome)}}
-              value={nome}/>
+            <Text style={styles.text}>Escolha uma Disciplina</Text>
+            <View>
+
+            <ScrollView style={styles.scrollCurso}>
+              {listCurso.length == 0 &&  <Text style={styles.text}>Não há cursos no sistema</Text>}
+              <FlatList 
+                  data ={listCurso} 
+                  keyExtractor={(item)=>{item.id}}
+                  renderItem={renderizaCurso}
+                  />
+              </ScrollView>
+            </View>
+
+            <View>
+
+            </View>
 
             <Text style={styles.text}>Professor</Text>
-            <TextInput style={styles.input}
-              onChangeText={(cargaHoraria) => {setCargaHoraria(cargaHoraria)}}
-              value={cargaHoraria}/>
+            <View>
+
+              <ScrollView style={styles.scrollCurso}>
+              {listTeacher.length == 0 &&  <Text style={styles.text}>Não há professores no sistema</Text>}
+                <FlatList 
+                    data ={listTeacher} 
+                    keyExtractor={(item)=>{item.id}}
+                    renderItem={renderizaTeacher}
+                    />
+                </ScrollView>
+                </View>
 
               
             <Text style={styles.text}>Ano</Text>
             <TextInput style={styles.input}
-              onChangeText={(cargaHoraria) => {setCargaHoraria(cargaHoraria)}}
-              value={cargaHoraria}/>
+              onChangeText={(ano) => {setAno(ano)}}
+              value={ano}/>
 
-            <Text style={styles.text}>Horario</Text>
-            <TextInput style={styles.input}
-              onChangeText={(cargaHoraria) => {setCargaHoraria(cargaHoraria)}}
-              value={cargaHoraria}/>
+            <Text style={styles.text}>Horario: {cargaHoraria}</Text>
+
 
             
-
-
-
             <Pressable onPress={()=>salvar()} style={styles.button}>SALVAR</Pressable>
             
-        </View>
+        </ScrollView>
     )
 }
 
@@ -138,11 +243,26 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderWidth: 1,
-        marginTop:100,
+        marginTop:20,
         width:100,
         marginLeft:'auto',
         marginRight:'auto'
 
+      },
+      containerCurso:{
+        flex:1,
+        flexDirection:'row',
+        alignItems:'center'
+
+      },
+      buttonRadio:{
+        width:'50%'
+      },
+      scrollCurso:{
+        flex:'150px',
+        borderWidth: 1, 
+        padding:10,
+        margin:5
       }
      
 

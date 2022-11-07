@@ -13,18 +13,16 @@ export default function CadastroAlunos(props){
   const [cidade, setCidade] = useState();
   const [endereco, setEndereco] = useState();
   const [foto, setFoto] = useState();
-  const [idAluno, setIdAluno] = useState(0);
+  const [idAluno, setIdAluno] = useState(1);
 
   
-
-
-
   
 
-    useEffect(() => {
+    useEffect(async () => {
 
+      console.log("entrou")
    
-    const collecRef  = collection(db, 'Alunos');
+    const collecRef  = await collection(db, 'Alunos');
 
     getDocs(collecRef)
     .then( (snapshot)=> {
@@ -37,7 +35,7 @@ export default function CadastroAlunos(props){
 
         const id = items.length
 
-        setIdAluno(id)
+        setIdAluno(id+1)
 
         setRa(id+1)
 
@@ -77,30 +75,36 @@ export default function CadastroAlunos(props){
 
             <Text style={styles.text}>Digite as informações de Cadastro</Text>
             
-            <Text style={styles.text}>RA: {ra}</Text>
+            <Text onSubmitEditing = { (e)=> { this.update(e); } } style={styles.text}>RA: {ra}</Text>
 
             <Text style={styles.text}>Nome completo</Text>
             <TextInput style={styles.input}
               onChangeText={(nome) => {setNome(nome)}}
-              value={nome}/>
+        
+              value={nome}
+              onSubmitEditing = { (nome)=> { this.update(nome); } }/>
+
 
             <Text style={styles.text}>Endereço</Text>
             <TextInput style={styles.input}
               onChangeText={(endereco) => {setEndereco(endereco)}}
-              value={endereco}/>
+              value={endereco}
+              onSubmitEditing = { (e)=> { this.update(e); } }/>
 
             <Text style={styles.text}>Cidade</Text>
             <TextInput style={styles.input}
               onChangeText={(cidade) => {setCidade(cidade)}}
-              value={cidade}/>
+              value={cidade}
+              onSubmitEditing = { (e)=> { this.update(e); } }/>
             
 
             <Text style={styles.text}>Cole o link da sua foto</Text>
             <TextInput style={styles.input}
               onChangeText={(foto) => {setFoto(foto)}}
-              value={foto}/>
+              value={foto}
+              onSubmitEditing = { (e)=> { this.update(e); } }/>
 
-            <img  ser={foto}/>
+            <img style={styles.img} src={foto}/>
 
 
             <Pressable onPress={()=>salvar()} style={styles.button}>SALVAR</Pressable>
@@ -114,6 +118,7 @@ const styles = StyleSheet.create({
     container: {
         flex: "100%",
         backgroundColor: '#eaeaea',
+
       },
       text:{
         margin:10,
@@ -130,11 +135,18 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderWidth: 1,
-        marginTop:100,
+        marginTop:20,
         width:100,
         marginLeft:'auto',
         marginRight:'auto'
 
+      },
+      img:{
+        width:100,
+        height:100,
+        marginLeft:'auto',
+        marginRight:'auto',
+        marginTop:20
       }
      
 
