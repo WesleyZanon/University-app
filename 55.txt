@@ -1,0 +1,10 @@
+tela home
+tela cadastrar aluno
+tela cadastrar disciplina
+tela cadastrar professor
+tela cadastrar turma
+tela cadastrar historico
+consultar historico
+consultar todas disciplinas
+consultar todos professores
+consultar todas turmas
